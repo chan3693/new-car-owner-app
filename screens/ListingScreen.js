@@ -84,6 +84,11 @@ const ListingScreen = ({navigation, route}) => {
 
     //find the lat & lng and city
     const doFwdGeocode = async() => {
+        if (!pickupLocation || pickupLocation.trim().length === 0) {
+            console.log("Pickup location is empty or invalid");
+            Alert.alert("Invalid Address", "Please enter a valid address.");
+            return;
+        }
         try {
             const geocodedLocations = await Location.geocodeAsync(pickupLocation)
 
@@ -141,8 +146,20 @@ const ListingScreen = ({navigation, route}) => {
         }
     }
 
+    useEffect(()=>{
+        (async()=>{
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted'){
+                Alert.alert('Permission to access location was denied')
+                return;
+            }
+        })();
+    },[])
+
     useEffect(() =>{
-        doFwdGeocode()
+        if (pickupLocation && pickupLocation.trim().length > 0) {
+            doFwdGeocode()
+        }
     }, [pickupLocation])
 
     // handle btn press and save to db
