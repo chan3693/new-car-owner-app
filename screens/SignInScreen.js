@@ -87,12 +87,11 @@ const SignInScreen = ( {navigation} ) => {
                 }else{
                     await clearUserData();
                 }
-
-                navigation.replace("Listing Screen")
-
-                // Request notification permissions
-                // await requestNotificationPermissions();
-
+                // navigation rest to listing screen as first page after logged in
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Listing Screen', params: { userId } }],
+                });
                 console.log(`Signed In successfully`)
             } else {
                 console.log("User is not authorized to access")

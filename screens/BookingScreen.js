@@ -6,7 +6,8 @@ import { db } from '../config/FirebaseConfig';
 const BookingScreen = ({route}) => {
 
     // get current user id
-    const { userId } = route.params
+    const { userId } = route.params;
+    console.log(`Booking Screen - routed userId : ${userId}`)
 
     const [bookingList, setBookingList] = useState([])
 
@@ -60,7 +61,7 @@ const BookingScreen = ({route}) => {
                 })
             }
 
-            console.log(`results from db ${JSON.stringify(bookingFromDB)}`)
+            // console.log(`results from db ${JSON.stringify(bookingFromDB)}`)
             console.log(`Total number of bookings : ${bookingFromDB.length}`)
             setBookingList(bookingFromDB)
         }catch(err){

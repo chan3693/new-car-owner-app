@@ -1,7 +1,7 @@
 import 'expo-dev-client';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, TouchableOpacity, Text, ActivityIndicator} from 'react-native';
-import { CommonActions, NavigationContainer, StackActions } from '@react-navigation/native';
+import { StyleSheet, View, TouchableOpacity, ActivityIndicator} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useState, useEffect } from "react";
@@ -11,7 +11,6 @@ import { auth } from './config/FirebaseConfig';
 import SignInScreen from './screens/SignInScreen';
 import ListingScreen from './screens/ListingScreen';
 import BookingScreen from './screens/BookingScreen';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,8 +26,6 @@ export default function App() {
       onAuthStateChanged(auth, (user) => {
         if(user){
           setInitialRoute('Listing Screen');
-          AsyncStorage.setItem('userId', user.uid)
-          console.log(`saved userId to AsyncStorage : ${user.uid}`)
         }else{
           setInitialRoute('Sign In Screen');
         }
@@ -44,16 +41,11 @@ export default function App() {
   try{
     await signOut(auth)
     console.log(`logged out`)
-    await AsyncStorage.removeItem('userId')
-    console.log(`removed userId from AsyncStorage`)
     setInitialRoute('Sign In Screen');
-    
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [{ name: 'Sign In Screen' }]
-      })
-    )
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Sign In Screen' }]
+    })
   }catch(err){
     console.log(`Error while signing out : ${err}`);
   }
@@ -97,8 +89,15 @@ export default function App() {
         name="Sign In Screen" 
         options={{headerTitle: 'Car Owner App', headerRight: () => null}}
       />
-      <Stack.Screen component={ListingScreen} name="Listing Screen"/>
-      <Stack.Screen component={BookingScreen} name='Booking Screen'/>    
+      <Stack.Screen 
+        component={ListingScreen} 
+        name="Listing Screen" 
+        initialParams={{userId: auth.currentUser?.uid}}
+      />
+      <Stack.Screen 
+        component={BookingScreen} 
+        name='Booking Screen'
+      />
     </Stack.Group>
     
     </Stack.Navigator>
