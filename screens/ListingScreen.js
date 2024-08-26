@@ -2,7 +2,7 @@ import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet, Alert 
 import { useState, useEffect } from 'react';
 import { db } from '../config/FirebaseConfig';
 import { collection, addDoc } from 'firebase/firestore';
-// import * as Location from "expo-location"
+import * as Location from "expo-location"
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ListingScreen = ({navigation}) => {
@@ -161,7 +161,7 @@ const ListingScreen = ({navigation}) => {
     }
 
     useEffect(() =>{
-        // doFwdGeocode()
+        doFwdGeocode()
     }, [pickupLocation])
 
     // handle btn press and save to db

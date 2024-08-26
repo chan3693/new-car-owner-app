@@ -5,7 +5,6 @@ import { CommonActions, NavigationContainer, StackActions } from '@react-navigat
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useState, useEffect } from "react";
-import { enableScreens } from 'react-native-screens';
 
 import SignInScreen from './screens/SignInScreen';
 import ListingScreen from './screens/ListingScreen';
@@ -14,14 +13,35 @@ import BookingScreen from './screens/BookingScreen';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  enableScreens()
   const [initialRoute, setInitialRoute] = useState('Sign In Screen')
+
+  useEffect(()=>{
+    // checkLoginStatus();
+  },[]);
+
+  const checkLoginStatus = async()=>{
+    try {
+      const savedToken = await AsyncStorage.getItem('authToken');
+      const savedUserId = await AsyncStorage.getItem('userId')
+      console.log(`savedToken : ${savedToken}`)
+      console.log(`savedUserId : ${savedUserId}`)
+
+      if(savedToken && savedUserId){
+        setInitialRoute('Listing Screen');
+      }else{
+        setInitialRoute('Sign In Screen');
+      }
+    }catch(err){
+      console.log(`Error while checking login status : ${err}`)
+      setInitialRoute('Sign In Screen');
+    }
+  }
 
 
  //function perform logout
  const performLogout = async({navigation}) => {
   try{
-    // await signOut(auth)
+    await signOut(auth)
 
     // await AsyncStorage.removeItem('authToken');
     // await AsyncStorage.removeItem('userId')
