@@ -7,6 +7,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { useState, useEffect } from "react";
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from './config/FirebaseConfig';
+import { initializeNotifications } from './services/NotificationService';
+import { unsubscribeFromTopic } from './services/NotificationService';
 
 import SignInScreen from './screens/SignInScreen';
 import ListingScreen from './screens/ListingScreen';
@@ -23,9 +25,10 @@ export default function App() {
 
   const chechAuth = ()=>{
     try {
-      onAuthStateChanged(auth, (user) => {
+      onAuthStateChanged(auth, async (user) => {
         if(user){
           setInitialRoute('Listing Screen');
+          await initializeNotifications();
         }else{
           setInitialRoute('Sign In Screen');
         }
@@ -39,7 +42,8 @@ export default function App() {
  //function perform logout
  const performLogout = async({navigation}) => {
   try{
-    await signOut(auth)
+    await signOut(auth);
+    await unsubscribeFromTopic('New-Booking')
     console.log(`logged out`)
     setInitialRoute('Sign In Screen');
     navigation.reset({

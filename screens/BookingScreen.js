@@ -91,7 +91,6 @@ const BookingScreen = ({route}) => {
                             const ownerDocSnapshot = await getDoc(ownerDocRef)
                             const ownerData = ownerDocSnapshot.data()
 
-                            
                             if (ownerData.carStatus === "Pending"){
                                 const confirmationCode = Math.random().toString(36).substring(2, 12).toUpperCase()
                                 console.log(`code : ${confirmationCode}`);
