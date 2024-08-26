@@ -82,16 +82,11 @@ const SignInScreen = ( {navigation} ) => {
 
             const userInDb = await checkUser(userId)
             if (userInDb) {
-                await AsyncStorage.setItem('authToken', userId)
-                console.log(`authToken stored local`)
-
                 if (rememberMe){
                     await saveUserData(email, pw);
                 }else{
                     await clearUserData();
                 }
-                
-                await AsyncStorage.setItem('userId', userId)
 
                 navigation.replace("Listing Screen")
 

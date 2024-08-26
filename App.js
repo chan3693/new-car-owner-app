@@ -5,49 +5,47 @@ import { CommonActions, NavigationContainer, StackActions } from '@react-navigat
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useState, useEffect } from "react";
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { auth } from './config/FirebaseConfig';
 
 import SignInScreen from './screens/SignInScreen';
 import ListingScreen from './screens/ListingScreen';
 import BookingScreen from './screens/BookingScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [initialRoute, setInitialRoute] = useState('Sign In Screen')
+  const [initialRoute, setInitialRoute] = useState(null)
 
   useEffect(()=>{
-    // checkLoginStatus();
+    chechAuth();
   },[]);
 
-  const checkLoginStatus = async()=>{
+  const chechAuth = ()=>{
     try {
-      const savedToken = await AsyncStorage.getItem('authToken');
-      const savedUserId = await AsyncStorage.getItem('userId')
-      console.log(`savedToken : ${savedToken}`)
-      console.log(`savedUserId : ${savedUserId}`)
-
-      if(savedToken && savedUserId){
-        setInitialRoute('Listing Screen');
-      }else{
-        setInitialRoute('Sign In Screen');
-      }
+      onAuthStateChanged(auth, (user) => {
+        if(user){
+          setInitialRoute('Listing Screen');
+          AsyncStorage.setItem('userId', user.uid)
+          console.log(`saved userId to AsyncStorage : ${user.uid}`)
+        }else{
+          setInitialRoute('Sign In Screen');
+        }
+      });
     }catch(err){
-      console.log(`Error while checking login status : ${err}`)
+      console.log(`Error while checking auth : ${err}`)
       setInitialRoute('Sign In Screen');
     }
   }
-
 
  //function perform logout
  const performLogout = async({navigation}) => {
   try{
     await signOut(auth)
-
-    // await AsyncStorage.removeItem('authToken');
-    // await AsyncStorage.removeItem('userId')
-    // console.log(`authToken removed local`)
-    // console.log(`Successfully signed out`);
-
+    console.log(`logged out`)
+    await AsyncStorage.removeItem('userId')
+    console.log(`removed userId from AsyncStorage`)
     setInitialRoute('Sign In Screen');
     
     navigation.dispatch(
@@ -56,7 +54,6 @@ export default function App() {
         routes: [{ name: 'Sign In Screen' }]
       })
     )
-  
   }catch(err){
     console.log(`Error while signing out : ${err}`);
   }
