@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "347853521046",
+    "project_id": "react-native-g08",
+    "storage_bucket": "react-native-g08.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:347853521046:android:7b3be3b5851d89846fc2b7",
+        "android_client_info": {
+          "package_name": "com.simonchan.newcarownerapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtdnj9PcxDIjvcgkath3Miz0g5FLE0iX8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

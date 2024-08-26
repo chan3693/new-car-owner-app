@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyApofDcJJMJ1LPXSmKL_4fx7kvTp-z8XjE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>347853521046</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.ios.car-owner-app</string>
+	<key>PROJECT_ID</key>
+	<string>react-native-g08</string>
+	<key>STORAGE_BUCKET</key>
+	<string>react-native-g08.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:347853521046:ios:7f33aeb8bd6cdbd36fc2b7</string>
+</dict>
+</plist>

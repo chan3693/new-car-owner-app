@@ -7,6 +7,8 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { db } from "../config/FirebaseConfig";
 import { doc, getDoc } from 'firebase/firestore';
 
+import { requestUserPermission } from "../services/NotificationService";
+
 const SignInScreen = ( {navigation} ) => {
     const [emailAddress, setEmailAddress] = useState('');
     const [password, setPassword] = useState('');
@@ -93,6 +95,7 @@ const SignInScreen = ( {navigation} ) => {
                     routes: [{ name: 'Listing Screen', params: { userId } }],
                 });
                 console.log(`Signed In successfully`)
+                await requestUserPermission();
             } else {
                 console.log("User is not authorized to access")
                 Alert.alert("User is not authorized to access")
