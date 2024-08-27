@@ -7,7 +7,6 @@ const BookingScreen = ({route}) => {
 
     // get current user id
     const { userId } = route.params;
-    console.log(`Booking Screen - routed userId : ${userId}`)
 
     const [bookingList, setBookingList] = useState([])
 
@@ -19,6 +18,7 @@ const BookingScreen = ({route}) => {
     }, [])
 
     const getBookingFromRenterDB = async () => {
+        console.log(`Booking Screen - routed userId : ${userId}`)
         try{
             // get all the renter id
             const renterCollectionRef = collection(db, 'Renter DB')
